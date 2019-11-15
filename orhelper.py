@@ -3,11 +3,13 @@ import jpype
 import numpy as np
 
 import os
-os.environ['CLASSPATH'] = "/home/jbbowen/Desktop/OpenRocket Stuff/OpenRocket-15.03.jar"
+
+CLASSPATH = os.environ.get('CLASSPATH', "./OpenRocket-15.03.jar")
 
 import jnius_config
 jnius_config.add_options('-ea')
-jnius_config.set_classpath('.', '/home/jbbowen/Desktop/OpenRocket Stuff/OpenRocket-15.03.jar')
+jnius_config.set_classpath('.', CLASSPATH)
+
 import jnius
 from jnius import autoclass
 
@@ -33,16 +35,16 @@ class OpenRocketInstance(object):
         orp.startup.Startup2.loadMotor()
     
     def __enter__(self):
-        print 'Starting openrocket'
+        print('Starting openrocket')
              
     def __exit__(self, ty, value, tb):
         
         jpype.shutdownJVM()
         
         if not ty is None:
-            print 'Exception while calling openrocket'
-            print 'Exception info : ', ty, value, tb
-            print 'Traceback : '
+            print('Exception while calling openrocket')
+            print('Exception info : ', ty, value, tb)
+            print('Traceback : ')
             traceback.print_exception(ty, value, tb)
         
 class Helper(object):
@@ -90,7 +92,7 @@ class Helper(object):
         output = dict()
         for v in variables:            
             try:
-                data_type = filter( lambda x : x.getName() == unicode(v) , branch.getTypes() ) [0]
+                data_type = [x for x in branch.getTypes() if x.getName() == str(v)] [0]
             except:
                 continue
             
@@ -105,7 +107,7 @@ class Helper(object):
         output = dict()
         for v in variables:            
             try:
-                data_type = filter( lambda x : x.getName() == unicode(v) , branch.getTypes() ) [0]
+                data_type = [x for x in branch.getTypes() if x.getName() == str(v)] [0]
             except:
                 continue
             
@@ -147,11 +149,11 @@ class JIterator(object):
     def __iter__(self):
         return self
     
-    def next(self):
+    def __next__(self):
         if not self.jit.hasNext():
             raise StopIteration()
         else:
-            return self.jit.next()
+            return next(self.jit)
 
 class AbstractSimulationListener(object):
     """ This is a python implementation of openrocket.simulation.AbstractSimulationListener.
