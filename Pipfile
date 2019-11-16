@@ -4,9 +4,10 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
+matplotlib = "*"
 
 [packages]
-jpype1 = "*"
+jpype1 = "==0.6.3"
 numpy = "*"
 pyjnius = "*"
 
