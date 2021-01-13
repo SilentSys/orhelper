@@ -6,7 +6,7 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
      - [Open JDK 1.8](https://github.com/ojdkbuild/ojdkbuild)
      - [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) (requires signup)
      - Ubuntu: `sudo apt-get install openjdk-8-jre`
-- Python >=3.7
+- Python >=3.6
 - Pipenv for dependency management
 
 ## Setup JDK
