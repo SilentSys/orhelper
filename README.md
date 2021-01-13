@@ -1,47 +1,56 @@
 # orhelper
-Python module to connect with OpenRocket and do some headless magic
+orhelper is a module which aims to facilitate interacting and scripting with OpenRocket from Python.
 
-## Installation
+##Prerequisites
+- Java JDK 1.8
+     - [Open JDK 1.8](https://github.com/ojdkbuild/ojdkbuild)
+     - [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) (requires signup)
+     - Ubuntu: `sudo apt-get install openjdk-8-jre`
+- Python >=3.7
+- Pipenv for dependency management
 
-**Prerequisites**:
-Java JDK 1.8 works in my case, but OpenRocket recommends 1.7.  
-Python 3.6+ and Pipenv for dependency management.  
+##Setup JDK
 
-**Steps**
+###Linux
+- Export JAVA_HOME environment variable
+    ```
+    JAVA_HOME=/usr/lib/jvm/[YOUR JDK 1.8 FOLDER HERE]
+    ```
 
-Get OpenRocket jar file or set variable CLASSPATH which points to your OpenRocket jar
-```
-wget https://github.com/openrocket/openrocket/releases/download/release-15.03/OpenRocket-15.03.jar
-```
+###Windows
 
-Setup `.env` file to include JAVA_HOME
-```
-JDK_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-# default
-CLASSPATH=OpenRocket-15.03.jar
-```
+- Set Windows environment variables to the following:
+    - Oracle
+        ```
+        JAVA_HOME=C:\Program Files\Java\[YOUR JDK 1.8 FOLDER HERE]
+        ```
+    - OpenJDK
+        ```
+        JAVA_HOME=C:\Program Files\ojdkbuild\[YOUR JDK 1.8 FOLDER HERE]
+        ```
 
-Get inside venv
-```
-pipenv install --skip-lock
-pipenv shell
-```
+##Installing
 
-Run orhelper.py inside venv, _no errors should pop-up_
-```
-python orhelper.py
-```
+- Install orhelper from pip
+    ```
+    pip install orhelper
+    ```
 
-**Troubleshooting**
-You need to compile dependencies like pyjnius with correct envs. Try inside venv running bare pip.
-```
-pip install pyjnius --force-reinstall --no-cache-dir
-```
+- [Download](https://github.com/openrocket/openrocket/releases/download/release-15.03/OpenRocket-15.03.jar) the OpenRocket .jar file (if you don't already have it)
+    - Linux  
+        ```
+        wget https://github.com/openrocket/openrocket/releases/download/release-15.03/OpenRocket-15.03.jar
+        ```
 
-here is related issue that pops when wrongly built https://github.com/kivy/pyjnius/issues/428
+- Set environment variable `CLASSPATH` path to OpenRocket .jar file. (Only required if it's not already at `.\OpenRocket-15.03.jar`)
+    ```
+    CLASSPATH=\some\path\to\OpenRocket-15.03.jar
+    ```
 
-## Additional info
-Thats all what I found and fixed regarding this project.  
-http://wiki.openrocket.info/Scripting_with_Python_and_JPype proved to be outdated.  
-There is main issue regarding this topic which was active while researching this https://github.com/openrocket/openrocket/issues/532.
+- see `examples/` for usage examples
+
+
+## Credits
+- Richard Graham for the original script: [Source](https://sourceforge.net/p/openrocket/mailman/openrocket-devel/thread/4F17AA0C.1040002@rdg.cc/)
+- @not7cd for some initial organization and clean-up: [Source](https://github.com/not7cd/orhelper)
+- And of course everyone who has contributed to OpenRocket over the years.
