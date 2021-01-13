@@ -1,7 +1,7 @@
 # orhelper
 orhelper is a module which aims to facilitate interacting and scripting with OpenRocket from Python.
 
-##Prerequisites
+## Prerequisites
 - Java JDK 1.8
      - [Open JDK 1.8](https://github.com/ojdkbuild/ojdkbuild)
      - [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) (requires signup)
@@ -9,15 +9,15 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
 - Python >=3.7
 - Pipenv for dependency management
 
-##Setup JDK
+## Setup JDK
 
-###Linux
+### Linux
 - Export JAVA_HOME environment variable
     ```
     JAVA_HOME=/usr/lib/jvm/[YOUR JDK 1.8 FOLDER HERE]
     ```
 
-###Windows
+### Windows
 
 - Set Windows environment variables to the following:
     - Oracle
@@ -29,7 +29,7 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
         JAVA_HOME=C:\Program Files\ojdkbuild\[YOUR JDK 1.8 FOLDER HERE]
         ```
 
-##Installing
+## Installing
 
 - Install orhelper from pip
     ```
