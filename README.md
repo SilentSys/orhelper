@@ -48,6 +48,7 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
     ```
 
 - see `examples/` for usage examples
+- see [the OpenRocket wiki](https://github.com/openrocket/openrocket/wiki/Scripting-with-Python-and-JPype) for more info on on usage and the examples 
 
 
 ## Credits
