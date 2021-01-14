@@ -36,7 +36,11 @@ class OpenRocketInstance:
         """
         self.openrocket = None
         self.started = False
+
+        if not os.path.exists(jar_path):
+            raise FileNotFoundError(f"Jar file {os.path.abspath(jar_path)} does not exist")
         self.jar_path = jar_path
+
         if isinstance(log_level, str):
             self.or_log_level = OrLogLevel[log_level]
         else:
