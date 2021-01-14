@@ -1,27 +1,17 @@
 import os
 import logging
 from copy import copy
-from typing import Union, List
-from enum import Enum, auto
+from typing import Union, List, Iterable, Dict
 
 import jpype
 import jpype.imports
-
 import numpy as np
+
+from ._enums import *
 
 logger = logging.getLogger(__name__)
 
 CLASSPATH = os.environ.get("CLASSPATH", "OpenRocket-15.03.jar")
-
-
-class OrLogLevel(Enum):
-    OFF = auto()
-    ERROR = auto()
-    WARN = auto()
-    INFO = auto()
-    DEBUG = auto()
-    TRACE = auto()
-    ALL = auto()
 
 
 class OpenRocketInstance:
@@ -72,7 +62,7 @@ class OpenRocketInstance:
         gui_module.startLoader()
 
         or_logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)
-        or_logger.setLevel(self._java_log_level())
+        or_logger.setLevel(self._translate_log_level())
 
         self.started = True
 
@@ -86,20 +76,12 @@ class OpenRocketInstance:
         if ex is not None:
             logger.exception("Exception while calling OpenRocket", exc_info=(ex, value, tb))
 
-    def _java_log_level(self):
+    def _translate_log_level(self):
         # ----- Java imports -----
         Level = jpype.JPackage("ch").qos.logback.classic.Level
         # -----
 
-        return {
-            OrLogLevel.OFF: Level.OFF,
-            OrLogLevel.ERROR: Level.ERROR,
-            OrLogLevel.WARN: Level.WARN,
-            OrLogLevel.INFO: Level.INFO,
-            OrLogLevel.DEBUG: Level.DEBUG,
-            OrLogLevel.TRACE: Level.TRACE,
-            OrLogLevel.ALL: Level.ALL,
-        }[self.or_log_level]
+        return getattr(Level, self.or_log_level.name)
 
 
 class AbstractSimulationListener:
@@ -254,12 +236,23 @@ class Helper:
         sim.getOptions().randomizeSeed()  # Need to do this otherwise exact same numbers will be generated for each identical run
         sim.simulate(listener_array)
 
-    def get_timeseries(self, simulation, variables, branch_number=0):
+    def translate_flight_data_type(self, flight_data_type:Union[FlightDataType, str]):
+        if isinstance(flight_data_type, FlightDataType):
+            name = flight_data_type.name
+        elif isinstance(flight_data_type, str):
+            name = flight_data_type
+        else:
+            raise TypeError("Invalid type for flight_data_type")
+
+        return getattr(self.openrocket.simulation.FlightDataType, name)
+
+    def get_timeseries(self, simulation, variables: Iterable[Union[FlightDataType, str]], branch_number=0) \
+            -> Dict[Union[FlightDataType, str], np.array]:
         """
-        Gets a dictionary of timeseries data (as numpy arrays) from a simulation given variable names.
+        Gets a dictionary of timeseries data (as numpy arrays) from a simulation given specific variable names.
 
         :param simulation: An openrocket simulation object.
-        :param variables: A sequence of strings representing the variable names according to default locale.
+        :param variables: A sequence of FlightDataType or strings representing the desired variables
         :param branch_number:
         :return:
         """
@@ -267,21 +260,17 @@ class Helper:
         branch = simulation.getSimulatedData().getBranch(branch_number)
         output = dict()
         for v in variables:
-            try:
-                data_type = [x for x in branch.getTypes() if x.getName() == str(v)][0]
-            except:
-                continue
-
-            output[v] = np.array([i for i in branch.get(data_type)])
+            output[v] = np.array(branch.get(self.translate_flight_data_type(v)))
 
         return output
 
-    def get_final_values(self, simulation, variables, branch_number=0):
+    def get_final_values(self, simulation, variables: Iterable[Union[FlightDataType, str]], branch_number=0) \
+            -> Dict[Union[FlightDataType, str], float]:
         """
         Gets a the final value in the time series from a simulation given variable names.
 
         :param simulation: An openrocket simulation object.
-        :param variables: A sequence of strings representing the variable names according to default locale.
+        :param variables: A sequence of FlightDataType or strings representing the desired variables
         :param branch_number:
         :return:
         """
@@ -289,24 +278,22 @@ class Helper:
         branch = simulation.getSimulatedData().getBranch(branch_number)
         output = dict()
         for v in variables:
-            try:
-                data_type = [x for x in branch.getTypes() if x.getName() == str(v)][0]
-            except:
-                continue
-
-            output[v] = branch.get(data_type)[-1]
+            output[v] = branch.get(self.translate_flight_data_type(v))[-1]
 
         return output
 
-    def get_events(self, simulation):
+    def translate_flight_event(self, flight_event) -> FlightEvent:
+        return {getattr(self.openrocket.simulation.FlightEvent.Type, x.name): x for x in FlightEvent}[flight_event]
+
+    def get_events(self, simulation) -> Dict[FlightEvent, float]:
         """Returns a dictionary of all the flight events in a given simulation.
-           Key is the name of the event and value is the time of the event.
+           Key is FlightEvent and value is the time of the event.
         """
         branch = simulation.getSimulatedData().getBranch(0)
 
         output = dict()
         for ev in branch.getEvents():
-            output[str(ev.getType().toString())] = ev.getTime()
+            output[self.translate_flight_event(ev.getType())] = ev.getTime()
 
         return output
 
