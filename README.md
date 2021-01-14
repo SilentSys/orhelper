@@ -7,7 +7,6 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
      - [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) (requires signup)
      - Ubuntu: `sudo apt-get install openjdk-8-jre`
 - Python >=3.6
-- Pipenv for dependency management
 
 ## Setup JDK
 
@@ -47,8 +46,8 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
     CLASSPATH=\some\path\to\OpenRocket-15.03.jar
     ```
 
-- see `examples/` for usage examples
-- see [the OpenRocket wiki](https://github.com/openrocket/openrocket/wiki/Scripting-with-Python-and-JPype) for more info on usage and the examples 
+- See `examples/` for usage examples
+- See [the OpenRocket wiki](https://github.com/openrocket/openrocket/wiki/Scripting-with-Python-and-JPype) for more info on usage and the examples 
 
 
 ## Credits
