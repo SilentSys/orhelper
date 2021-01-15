@@ -2,6 +2,7 @@
 orhelper is a module which aims to facilitate interacting and scripting with OpenRocket from Python.
 
 ## Prerequisites
+- OpenRocket 15.03
 - Java JDK 1.8
      - [Open JDK 1.8](https://github.com/ojdkbuild/ojdkbuild)
      - [Oracle JDK 8](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html) (requires signup)
