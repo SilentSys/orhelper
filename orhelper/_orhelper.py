@@ -13,6 +13,12 @@ logger = logging.getLogger(__name__)
 
 CLASSPATH = os.environ.get("CLASSPATH", "OpenRocket-15.03.jar")
 
+__all__ = [
+    'OpenRocketInstance',
+    'AbstractSimulationListener',
+    'Helper',
+    'JIterator',
+]
 
 class OpenRocketInstance:
     """ This class is designed to be called using the 'with' construct. This
