@@ -14,7 +14,7 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
 ### Linux
 - Export JAVA_HOME environment variable
     ```
-    JAVA_HOME=/usr/lib/jvm/[YOUR JDK 1.8 FOLDER HERE]
+    export JAVA_HOME="/usr/lib/jvm/[YOUR JDK 1.8 FOLDER HERE]"
     ```
 
 ### Windows
@@ -22,11 +22,11 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
 - Set Windows environment variables to the following:
     - Oracle
         ```
-        JAVA_HOME=C:\Program Files\Java\[YOUR JDK 1.8 FOLDER HERE]
+        JAVA_HOME = C:\Program Files\Java\[YOUR JDK 1.8 FOLDER HERE]
         ```
     - OpenJDK
         ```
-        JAVA_HOME=C:\Program Files\ojdkbuild\[YOUR JDK 1.8 FOLDER HERE]
+        JAVA_HOME = C:\Program Files\ojdkbuild\[YOUR JDK 1.8 FOLDER HERE]
         ```
 
 ## Installing
