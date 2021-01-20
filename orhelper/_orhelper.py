@@ -299,7 +299,7 @@ class Helper:
 
         output = dict()
         for ev in branch.getEvents():
-            output[self.translate_flight_event(ev.getType())] = ev.getTime()
+            output[self.translate_flight_event(ev.getType())] = float(ev.getTime())
 
         return output
 
