@@ -293,13 +293,17 @@ class Helper:
 
     def get_events(self, simulation) -> Dict[FlightEvent, float]:
         """Returns a dictionary of all the flight events in a given simulation.
-           Key is FlightEvent and value is the time of the event.
+           Key is FlightEvent and value is a list of all the times at which the event occurs.
         """
         branch = simulation.getSimulatedData().getBranch(0)
 
         output = dict()
         for ev in branch.getEvents():
-            output[self.translate_flight_event(ev.getType())] = float(ev.getTime())
+            type = self.translate_flight_event(ev.getType())
+            if type in output:
+                output[type].append(float(ev.getTime()))
+            else:
+                output[type] = [float(ev.getTime())]
 
         return output
 
