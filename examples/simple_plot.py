@@ -48,4 +48,6 @@ with orhelper.OpenRocketInstance() as instance:
                          arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
 
     ax1.grid(True)
-    plt.show()
+
+# Leave OpenRocketInstance context before showing plot in order to shutdown JVM first
+plt.show()

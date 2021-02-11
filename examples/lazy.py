@@ -55,4 +55,6 @@ with orhelper.OpenRocketInstance() as instance:
     ax1.set_ylabel('Altitude (m)')
     ax1.set_title('Optimal launch rod angle for easy recovery')
     ax1.grid(True)
-    plt.show()
+
+# Leave OpenRocketInstance context before showing plot in order to shutdown JVM first
+plt.show()
