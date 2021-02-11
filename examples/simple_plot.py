@@ -39,12 +39,13 @@ with orhelper.OpenRocketInstance() as instance:
     change_color(ax2, 'r')
 
     index_at = lambda t: (np.abs(data[FlightDataType.TYPE_TIME] - t)).argmin()
-    for event, time in events.items():
+    for event, times in events.items():
         if event not in events_to_annotate:
             continue
-        ax1.annotate(events_to_annotate[event], xy=(time, data[FlightDataType.TYPE_ALTITUDE][index_at(time)]),
-                     xycoords='data', xytext=(20, 0), textcoords='offset points',
-                     arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
+        for time in times:
+            ax1.annotate(events_to_annotate[event], xy=(time, data[FlightDataType.TYPE_ALTITUDE][index_at(time)]),
+                         xycoords='data', xytext=(20, 0), textcoords='offset points',
+                         arrowprops=dict(arrowstyle="->", connectionstyle="arc3"))
 
     ax1.grid(True)
     plt.show()
