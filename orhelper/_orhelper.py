@@ -75,6 +75,11 @@ class OpenRocketInstance:
         return self
 
     def __exit__(self, ex, value, tb):
+
+        # Dispose any open windows (usually just a loading screen) which can prevent the JVM from shutting down
+        for window in jpype.java.awt.Window.getWindows():
+            window.dispose()
+
         jpype.shutdownJVM()
         logger.info("JVM shut down")
         self.started = False
