@@ -12,9 +12,16 @@ orhelper is a module which aims to facilitate interacting and scripting with Ope
 ## Setup JDK
 
 ### Linux
-- Export JAVA_HOME environment variable
+For most people jpype will be able to automatically find the JDK. However, if it fails or you want to be sure you are using the correct version, add the JDK path to a JAVA_HOME environment variable:
+- Find installation directory (e.g. `/usr/lib/jvm/[YOUR JDK 1.8 FOLDER HERE]`)
+- Open the `~/.bashrc` file with your favorite text editor (will likely need sudo privileges)
+- Add the following line to the `~/.bashrc` file:
     ```
     export JAVA_HOME="/usr/lib/jvm/[YOUR JDK 1.8 FOLDER HERE]"
+    ```
+- Restart your terminal or run the following for the changes to take effect:
+    ```
+    source ~/.bashrc
     ```
 
 ### Windows
