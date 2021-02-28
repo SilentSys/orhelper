@@ -67,6 +67,13 @@ class OpenRocketInstance:
 
         gui_module.startLoader()
 
+        # Ensure that loaders are done loading before continuing
+        # Without this there seems to be a race condition bug that leads to the whole thing freezing
+        preset_loader = _get_private_field(gui_module, "presetLoader")
+        preset_loader.blockUntilLoaded()
+        motor_loader = _get_private_field(gui_module, "motorLoader")
+        motor_loader.blockUntilLoaded()
+
         or_logger = LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)
         or_logger.setLevel(self._translate_log_level())
 
@@ -339,3 +346,10 @@ class JIterator:
             raise StopIteration()
         else:
             return next(self.jit)
+
+def _get_private_field(obj, field_name):
+    field = obj.getClass().getDeclaredField(field_name)
+    field.setAccessible(True)
+    ret = field.get(obj)
+    field.setAccessible(False)
+    return ret
