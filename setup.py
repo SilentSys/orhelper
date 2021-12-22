@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="orhelper",
-    version="0.1.2",
+    version="0.1.3",
     author="Andrei Popescu",
     author_email="Popescu.Andrei.David@gmail.com",
     description="OrHelper is a module which aims to facilitate interacting and scripting with OpenRocket from Python.",
