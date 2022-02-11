@@ -17,7 +17,7 @@ class LandingPoints(list):
 
             # Load the document and get simulation
             orh = orhelper.Helper(instance)
-            doc = orh.load_doc(os.path.join('examples', 'simple.ork'))
+            doc = orh.load_doc('simple.ork')
             sim = doc.getSimulation(0)
 
             # Randomize various parameters
