@@ -226,6 +226,13 @@ class Helper:
         doc = loader.load()
         return doc
 
+    def save_doc(self, or_filename, doc):
+        """ Saves an openrocket document to a .ork file """
+        
+        or_java_file = jpype.java.io.File(or_filename)
+        saver = self.openrocket.file.GeneralRocketSaver()
+        saver.save(or_java_file, doc)
+
     def run_simulation(self, sim, listeners: List[AbstractSimulationListener] = None):
         """ This is a wrapper to the Simulation.simulate() for running a simulation
             The optional listeners parameter is a sequence of objects which extend orh.AbstractSimulationListener.
