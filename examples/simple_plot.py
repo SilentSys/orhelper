@@ -11,7 +11,7 @@ with orhelper.OpenRocketInstance() as instance:
 
     # Load document, run simulation and get data and events
 
-    doc = orh.load_doc('simple.ork')
+    doc = orh.load_doc(os.path.dirname(__file__), 'simple.ork')
     sim = doc.getSimulation(0)
     orh.run_simulation(sim)
     data = orh.get_timeseries(sim, [FlightDataType.TYPE_TIME, FlightDataType.TYPE_ALTITUDE, FlightDataType.TYPE_VELOCITY_Z])
