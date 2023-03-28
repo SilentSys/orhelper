@@ -22,7 +22,7 @@ class LandingPoints(list):
 
             # Randomize various parameters
             opts = sim.getOptions()
-            rocket = opts.getRocket()
+            rocket = sim.getRocket()
 
             # Run num simulations and add to self
             for p in range(num):
