@@ -9,8 +9,6 @@ import numpy as np
 
 from ._enums import *
 
-logger = logging.getLogger(__name__)
-
 CLASSPATH = os.environ.get("CLASSPATH", "OpenRocket-15.03.jar")
 
 __all__ = [
@@ -26,10 +24,14 @@ class OpenRocketInstance:
         JVM will always be shutdown.
     """
 
-    def __init__(self, jar_path: str = CLASSPATH, log_level: Union[OrLogLevel, str] = OrLogLevel.ERROR):
+    def __init__(self, jar_path: str = CLASSPATH, or_log_level: Union[OrLogLevel, str] = OrLogLevel.ERROR):
         """ jar_path is the full path of the OpenRocket .jar file to use
-            log_level can be either OFF, ERROR, WARN, INFO, DEBUG, TRACE and ALL
+            or_log_level is the log level for OpenRocket, and can be either OFF, ERROR, WARN, INFO, DEBUG, TRACE, or ALL
+            or_log_level does not set the log level for orhelper
         """
+
+        self.logger = logging.getLogger(__name__)
+        
         self.openrocket = None
         self.started = False
 
@@ -45,7 +47,7 @@ class OpenRocketInstance:
     def __enter__(self):
         jvm_path = jpype.getDefaultJVMPath()
 
-        logger.info(f"Starting JVM from {jvm_path} CLASSPATH={self.jar_path}")
+        self.logger.info(f"Starting JVM from {jvm_path} CLASSPATH={self.jar_path}")
 
         jpype.startJVM(jvm_path, "-ea", f"-Djava.class.path={self.jar_path}")
 
@@ -88,11 +90,11 @@ class OpenRocketInstance:
             window.dispose()
 
         jpype.shutdownJVM()
-        logger.info("JVM shut down")
+        self.logger.info("JVM shut down")
         self.started = False
 
         if ex is not None:
-            logger.exception("Exception while calling OpenRocket", exc_info=(ex, value, tb))
+            self.logger.exception("Exception while calling OpenRocket", exc_info=(ex, value, tb))
 
     def _translate_log_level(self):
         # ----- Java imports -----
